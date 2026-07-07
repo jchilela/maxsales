@@ -15,6 +15,27 @@ to create another one you own. Inviting an email that already has an account
 
 ---
 
+## 0. Free hosting
+
+**Frontend (live):** https://jchilela.github.io/maxsales/ — auto-deployed from `main` by
+`.github/workflows/deploy-pages.yml`. Every push redeploys it.
+
+**Backend + database (two free accounts, ~5 minutes):**
+
+1. **Neon** (database): sign up at https://neon.tech (free tier, doesn't expire) → create a
+   project → copy the connection string (`postgresql://…sslmode=require`).
+2. **Render** (API): sign up at https://render.com → **New → Blueprint** → connect the
+   `jchilela/maxsales` repo. It reads `render.yaml`, creates the free `maxsales-api` service
+   and prompts for `DATABASE_URL` — paste the Neon string. First boot creates the schema and
+   seeds the demo data automatically (`SEED_DEMO=1`; set it to `0` afterwards for a clean start).
+3. **Point the frontend at it:** in GitHub → repo → Settings → Secrets and variables →
+   Actions → Variables → new variable `API_URL` = `https://maxsales-api.onrender.com/api`
+   (your Render URL + `/api`), then re-run the "Deploy frontend to GitHub Pages" workflow.
+
+Free-tier trade-off: Render sleeps the API after 15 idle minutes; the first request after
+that takes ~30–60 s to wake. Until you do steps 1–3, the live frontend talks to
+`http://localhost:8000` — i.e. it works on your machine while the local backend is running.
+
 ## 1. Run locally
 
 Prerequisites: Python 3.10+, Node 18.13+, Docker (only for Postgres — optional, see SQLite note).
