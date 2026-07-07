@@ -102,6 +102,10 @@ import { MoneyPipe } from '../core/money.pipe';
       .bar { background: var(--primary); height: 100%; border-radius: 6px; min-width: 2px; }
       .bar.red { background: var(--red); }
       .rep-val { text-align: right; font-size: 13px; font-weight: 600; }
+      @media (max-width: 700px) {
+        .rep-row { grid-template-columns: minmax(80px, 120px) 1fr 86px; gap: 6px; }
+        .rep-name, .rep-val { font-size: 12px; white-space: nowrap; }
+      }
     `,
   ],
 })

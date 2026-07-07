@@ -123,6 +123,10 @@ import { MoneyPipe } from '../core/money.pipe';
       .bar { background: var(--primary); height: 100%; border-radius: 6px; min-width: 2px; }
       .stage-val { text-align: right; font-size: 13px; font-weight: 600; }
       table td { border-bottom: 1px solid var(--border); }
+      @media (max-width: 700px) {
+        .stage-row { grid-template-columns: 96px 1fr 86px; gap: 6px; }
+        .stage-name, .stage-val { font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      }
     `,
   ],
 })

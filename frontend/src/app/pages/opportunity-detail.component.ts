@@ -198,7 +198,7 @@ import { TimelineComponent } from '../shared/timeline.component';
       .chev.current { background: var(--primary); color: #fff; }
       .chev.won { background: var(--green); }
       .chev.lostc { background: var(--red); }
-      .detail-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; font-size: 13px; }
+      .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; font-size: 13px; }
       .detail-grid .muted { font-size: 11.5px; text-transform: uppercase; }
       .mini { width: 76px; text-align: right; }
       .small { font-size: 12px; white-space: normal; max-width: 260px; }

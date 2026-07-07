@@ -144,6 +144,30 @@ input[type='checkbox'] { width: auto; }
 
 /* responsive */
 @media (max-width: 860px) {
-  .page { padding: 14px; }
+  .page { padding: 12px; }
   .form-row { grid-template-columns: 1fr; }
+  h1 { font-size: 19px; }
+  .page-head { margin-bottom: 14px; }
+  .kpi .value { font-size: 20px; }
+  th, td { padding: 8px 10px; font-size: 13px; }
+  .kanban { gap: 8px; }
+  .kanban-col { min-width: 240px; width: 240px; }
+  .toolbar { gap: 8px; }
+  .toolbar input, .toolbar select { flex: 1 1 140px; min-width: 0; }
+  .modal-backdrop { padding: 12px 8px; align-items: stretch; }
+  .modal { max-height: 96vh; padding: 16px; border-radius: 10px; align-self: flex-start; }
+  .toasts { left: 12px; right: 12px; bottom: 12px; }
+  .toast { max-width: none; }
+  .btn { padding: 9px 14px; }   /* comfortable touch targets */
+  .btn.sm { padding: 6px 10px; }
+  .cols-2, .cols-3, .cols-4 { grid-template-columns: 1fr; }
+  .pager { padding: 10px; }
+}
+@media (max-width: 480px) {
+  .kpi .value { font-size: 18px; }
+  .kanban-col { min-width: 82vw; width: 82vw; }  /* one column per swipe */
+}
+@media (hover: none) and (pointer: coarse) {
+  /* 16px stops iOS Safari from auto-zooming focused fields */
+  input, select, textarea { font-size: 16px; }
 }

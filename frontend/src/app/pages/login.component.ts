@@ -36,8 +36,8 @@ import { TrPipe } from '../core/i18n.service';
   `,
   styles: [
     `
-      .wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0f172a, #1e3a8a); }
-      .box { width: 380px; padding: 30px; }
+      .wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0f172a, #1e3a8a); padding: 16px; }
+      .box { width: 380px; max-width: 100%; padding: 30px 24px; }
       .logo { font-size: 28px; font-weight: 800; }
       .logo span { color: var(--primary); }
       .full { width: 100%; justify-content: center; margin-top: 18px; }

@@ -15,9 +15,10 @@ import { ToastService } from '../core/toast.service';
   imports: [CommonModule, FormsModule, RouterOutlet, RouterLink, RouterLinkActive, TrPipe],
   template: `
     <div class="shell">
-      <aside class="sidebar">
+      @if (menuOpen) { <div class="backdrop" (click)="menuOpen = false"></div> }
+      <aside class="sidebar" [class.open]="menuOpen">
         <div class="brand">Max<span>Sales</span></div>
-        <nav>
+        <nav (click)="menuOpen = false">
           <a routerLink="/dashboard" routerLinkActive="active">📊 {{ 'dashboard' | tr }}</a>
           <a routerLink="/pipeline" routerLinkActive="active">🎯 {{ 'pipeline' | tr }}</a>
           <a routerLink="/accounts" routerLinkActive="active">🏢 {{ 'accounts' | tr }}</a>
@@ -39,6 +40,7 @@ import { ToastService } from '../core/toast.service';
 
       <div class="main">
         <header class="topbar">
+          <button class="hamburger" (click)="menuOpen = !menuOpen" aria-label="Menu">☰</button>
           <div class="searchbox">
             <input
               [placeholder]="'search' | tr"
@@ -148,11 +150,22 @@ import { ToastService } from '../core/toast.service';
       .hit:hover { background: #f1f5f9; }
       .lang { width: auto; }
       .org-switch { width: auto; max-width: 260px; font-weight: 600; }
+      .hamburger {
+        display: none; border: none; background: transparent; font-size: 22px;
+        cursor: pointer; padding: 2px 8px; color: var(--text); line-height: 1;
+      }
+      .backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); z-index: 390; }
       @media (max-width: 860px) {
-        .sidebar { width: 64px; }
-        .brand { font-size: 13px; padding: 16px 8px; text-align: center; }
-        nav a { text-align: center; padding: 9px 4px; overflow: hidden; white-space: nowrap; }
-        .side-foot { display: none; }
+        .hamburger { display: inline-flex; }
+        .sidebar {
+          position: fixed; left: 0; top: 0; bottom: 0; width: 240px; z-index: 400;
+          transform: translateX(-105%); transition: transform 0.22s ease;
+          box-shadow: 8px 0 30px rgba(0, 0, 0, 0.3);
+        }
+        .sidebar.open { transform: translateX(0); }
+        .topbar { padding: 8px 10px; gap: 8px; }
+        .searchbox { width: 100%; min-width: 0; flex: 1; }
+        .org-switch { max-width: 130px; }
       }
     `,
   ],
@@ -170,6 +183,7 @@ export class ShellComponent {
   newCompanyOpen = false;
   newCompanyName = '';
   newCompanyCurrency = 'USD';
+  menuOpen = false;
 
   constructor() {
     this.query$.pipe(debounceTime(250)).subscribe(async (q) => {

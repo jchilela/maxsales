@@ -69,6 +69,11 @@ export const ACTIVITY_ICONS: Record<string, string> = {
       .quick select { width: 130px; }
       .quick input[name='subject'] { flex: 1; min-width: 160px; }
       .quick input[type='datetime-local'] { width: 190px; }
+      @media (max-width: 700px) {
+        .quick select, .quick input[type='datetime-local'] { flex: 1 1 45%; width: auto; min-width: 0; }
+        .quick input[name='subject'] { flex: 1 1 100%; }
+        .quick .btn { flex: 1 1 100%; justify-content: center; }
+      }
       .badge { margin-left: 8px; }
       .done-line { text-decoration: line-through; color: var(--muted); }
     `,
