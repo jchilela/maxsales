@@ -1,0 +1,25 @@
+# Render blueprint: creates the FastAPI backend as a free web service.
+# In the Render dashboard: New → Blueprint → point at this repository.
+# Free-tier note: the service sleeps after 15 min idle; first request after
+# that takes ~30-60s to wake. Pair with a free Neon (neon.tech) Postgres —
+# paste its connection string when Render prompts for DATABASE_URL.
+services:
+  - type: web
+    name: maxsales-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.4
+      - key: DATABASE_URL
+        sync: false        # paste your Neon connection string
+      - key: SECRET_KEY
+        generateValue: true
+      - key: SEED_DEMO
+        value: "1"         # seeds demo data on first boot of an empty DB
+      - key: CORS_ORIGINS
+        value: https://jchilela.github.io

@@ -1,7 +1,9 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .database import Base, engine
+from .database import Base, SessionLocal, engine
 from .routers import (
     accounts,
     activities_products,
@@ -20,15 +22,36 @@ app = FastAPI(
     version="1.0.0",
 )
 
+_default_origins = ["http://localhost:4200", "http://127.0.0.1:4200"]
+_extra_origins = [o.strip() for o in os.getenv("CORS_ORIGINS", "").split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200", "http://127.0.0.1:4200"],
+    allow_origins=_default_origins + _extra_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 Base.metadata.create_all(bind=engine)
+
+
+@app.on_event("startup")
+def seed_demo_if_empty():
+    """On hosted free tiers there is no shell to run the seed manually, so an
+    empty database is seeded automatically when SEED_DEMO=1."""
+    if os.getenv("SEED_DEMO") != "1":
+        return
+    from .models import Organization
+
+    db = SessionLocal()
+    try:
+        if db.query(Organization).count() == 0:
+            from .seed import seed_org1, seed_org2
+
+            alice = seed_org1(db)
+            seed_org2(db, alice)
+    finally:
+        db.close()
 
 app.include_router(auth_users.router)
 app.include_router(accounts.router)

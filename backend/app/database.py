@@ -9,6 +9,10 @@ load_dotenv()
 DATABASE_URL = os.getenv(
     "DATABASE_URL", "postgresql+psycopg2://crm:crm@localhost:5432/crm"
 )
+# Hosted providers (Render, Neon, Heroku) hand out postgres:// URLs, a scheme
+# SQLAlchemy 2 no longer accepts.
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 engine = create_engine(
     DATABASE_URL,

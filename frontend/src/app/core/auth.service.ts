@@ -3,7 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
-export const API_URL = 'http://localhost:8000/api';
+// Deployed builds set window.CRM_API_URL (see index.html / the Pages workflow);
+// local dev falls back to the local FastAPI server.
+export const API_URL: string =
+  (window as any).CRM_API_URL || 'http://localhost:8000/api';
 
 export interface SessionUser {
   id: number;
